@@ -8,9 +8,12 @@ import {
 import OutlinedButton from "../ui/OutlinedButton";
 import { Colors } from "../../constants/colors";
 import { getMapPreview } from "../../util/location";
+import { useNavigation } from "@react-navigation/native";
 
 function LocationPicker() {
   const [pickedLocation, setPickedLocation] = useState();
+
+  const navigation = useNavigation();
 
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
@@ -58,14 +61,15 @@ function LocationPicker() {
           pickedLocation.lng
         );
         console.log(mapPreviewUri);
-        // Handle the map preview URI as needed
       };
 
       getMapPreviewAsync();
     }
   }, [pickedLocation]);
 
-  function pickOnMapHandler() {}
+  function pickOnMapHandler() {
+    navigation.navigate('Map');
+  }
 
   let locationPreview = <Text>No location picked yet.</Text>;
 
