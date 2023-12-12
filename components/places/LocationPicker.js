@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, View, Alert, Image, Text } from "react-native";
 import {
   getCurrentPositionAsync,
@@ -42,12 +42,28 @@ function LocationPicker() {
     }
 
     const location = await getCurrentPositionAsync();
+    console.log("LOCATION: ", location.coords.latitude, location.coords.longitude);
     setPickedLocation({
       lat: location.coords.latitude,
       lng: location.coords.longitude,
     });
     console.log(getMapPreview(pickedLocation));
   }
+
+  useEffect(() => {
+    if (pickedLocation) {
+      const getMapPreviewAsync = async () => {
+        const mapPreviewUri = await getMapPreview(
+          pickedLocation.lat,
+          pickedLocation.lng
+        );
+        console.log(mapPreviewUri);
+        // Handle the map preview URI as needed
+      };
+
+      getMapPreviewAsync();
+    }
+  }, [pickedLocation]);
 
   function pickOnMapHandler() {}
 
@@ -56,6 +72,7 @@ function LocationPicker() {
   if (pickedLocation) {
     locationPreview = (
       <Image
+      style={styles.image}
         source={{
           uri: getMapPreview(pickedLocation.lat, pickedLocation.lng),
         }}
@@ -90,10 +107,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.primary100,
     borderRadius: 4,
+    overflow: "hidden",
   },
   actions: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
   },
+  image: {
+    width: "100%",
+    height: "100%",
+  }
 });
