@@ -1,6 +1,7 @@
 import { Image, Pressable, Text, View, StyleSheet } from "react-native";
 
 function PlaceItem({ place, onSelect }) {
+  console.log("Place from PlaceItem!: ", place)
   return (
     <Pressable onPress={onSelect}>
       <Image source={{ uri: place.imageUri }} />

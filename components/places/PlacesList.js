@@ -8,9 +8,10 @@ function PlacesList({ places }) {
         <Text style={styles.fallbackText}>No places added yet - start adding some!</Text>
     </View>
   }
+  console.log(places);
   return (<FlatList 
     data={places} 
-    keyExtractor={(item) = item.id} 
+    keyExtractor={(item) => item.id} 
     renderItem={({ item }) => <PlaceItem place={item} />} 
    />
   );
@@ -28,4 +29,4 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: Colors.primary200,
     }
-})
+});
