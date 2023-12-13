@@ -7,7 +7,12 @@ import { fetchPlaceDetails } from "../util/database";
 function PlaceDetails({ route, navigation }) {
   const [fetchedPlace, setFetchedPlace] = useState();
 
-  function showOnMapHandler() {}
+  function showOnMapHandler() {
+    navigation.navigate("Map", {
+      initialLat: fetchedPlace.location.lat,
+      initialLng: fetchedPlace.location.lng,
+    });
+  }
   const selectedPlaceId = route.params.placeId;
   useEffect(() => {
     async function loadPlaceData() {
@@ -21,18 +26,22 @@ function PlaceDetails({ route, navigation }) {
   }, [selectedPlaceId]);
 
   if (!fetchedPlace) {
-    return <View style={styles.fallback}><Text>Loading Place Data...</Text></View>
+    return (
+      <View style={styles.fallback}>
+        <Text>Loading Place Data...</Text>
+      </View>
+    );
   }
   // console.log("fetched Place: ", fetchedPlace.address);
   return (
     <ScrollView>
-      <Image style={styles.image} source={{uri: fetchedPlace.imageUri}}/>
+      <Image style={styles.image} source={{ uri: fetchedPlace.imageUri }} />
       <View style={styles.locationContainer}>
         <View style={styles.addressContainer}>
-            <Text style={styles.address}>{fetchedPlace.address}</Text>
+          <Text style={styles.address}>{fetchedPlace.address}</Text>
         </View>
         <OutlinedButton icon="map" onPress={showOnMapHandler}>
-          MAP HERE
+          View on Map
         </OutlinedButton>
       </View>
     </ScrollView>
